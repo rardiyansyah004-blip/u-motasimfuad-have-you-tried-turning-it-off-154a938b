@@ -2,8 +2,8 @@
 // Writes the support line to $MAKEFUN_OUTPUT_DIR/entry.txt (gate: 1-199 chars).
 // makefun anchor fc819a3d16b244462b45cb4fb5738d5a096de1d3 round 34271476
 
-import * as nodeFs from "node:fs";
-import * as nodePath from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 // The line: a hopeless tech support agent gives the desperate customer
 // the one official answer — the same as the unofficial one.
@@ -18,10 +18,10 @@ function main(): void {
     throw new Error(`entry must be 1-${CHAR_LIMIT} chars, got ${line.length}`);
   }
   const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-  nodeFs.mkdirSync(outputDir, { recursive: true });
-  const file = nodePath.join(outputDir, "entry.txt");
-  nodeFs.writeFileSync(file, line, "utf8");
+  mkdirSync(outputDir, { recursive: true });
+  const file = resolve(outputDir, "entry.txt");
+  writeFileSync(file, line, "utf8");
   console.log(`wrote ${line.length} chars to ${file}`);
 }
 
-main();
+void main();
